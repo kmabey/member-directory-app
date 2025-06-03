@@ -1,15 +1,32 @@
 export interface Member {
-    name: {
-      first: string;
-      last: string;
+  name: {
+    first: string;
+    last: string;
+  };
+  dob: {
+    age: number;
+    date: string;
+  };
+  picture: {
+    thumbnail: string;
+    large: string;
+  };
+  location: {
+    street: {
+      number: number;
+      name: string;
     };
-    dob: {
-      age: number;
-    };
-    picture: {
-      thumbnail: string;
-    };
-  }
+    city: string;
+    state: string;
+    postcode: string | number;
+  };
+  email: string;
+  phone: string;
+  login: {
+    uuid: string;
+  };
+}
+
   
   export async function getMembers(): Promise<Member[]> {
     const res = await fetch("https://randomuser.me/api/?results=500");

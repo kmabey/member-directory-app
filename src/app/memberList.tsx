@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Member } from "@/lib/getMembers";
 import Image from "next/image";
-
+import Link from "next/link";
 
 interface Props {
   members: Member[];
@@ -29,23 +29,31 @@ export default function MemberList({ members }: Props) {
       <div className="flex flex-wrap gap-2">
         {filteredMembers.length > 0 ? (
           filteredMembers.map((member) => (
-            <div
-              key={member.name?.first + member.name?.last}
-              className="flex items-center p-2 space-x-2 border w-full md:w-[30%] rounded-lg"
+            <Link
+              key={member.login.uuid}
+              href={{
+                pathname: "/profile",
+                query: {
+                  member: encodeURIComponent(JSON.stringify(member)),
+                },
+              }}
+              className="w-full md:w-[30%]"
             >
-              <Image
-                src={member.picture?.thumbnail}
-                alt="profile photo"
-                width={50}
-                height={50}
-                className="rounded-lg"
-              />
-              <div>
-                <p className="font-semibold">
-                  {member.name?.first ?? ""} {member.name?.last ?? ""} - Age: {member.dob?.age ?? "Unknown"}
-                </p>
+              <div className="flex items-center p-2 space-x-2 border rounded-lg">
+                <Image
+                  src={member.picture?.thumbnail}
+                  alt="profile photo"
+                  width={50}
+                  height={50}
+                  className="rounded-lg"
+                />
+                <div>
+                  <p className="font-semibold">
+                    {member.name?.first ?? ""} {member.name?.last ?? ""} - Age: {member.dob?.age ?? "Unknown"}
+                  </p>
+                </div>
               </div>
-            </div>
+            </Link>
           ))
         ) : (
           <p>No matching members found.</p>
